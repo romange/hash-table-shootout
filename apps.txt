@@ -21,6 +21,7 @@ tsl_robin_map
 tsl_array_map
 # tsl_array_map_mlf_1_0
 redis_dict
+redis_hamt
 dash_table
 # nata88
 # nataF8

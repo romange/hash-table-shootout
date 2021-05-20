@@ -29,6 +29,14 @@ $(REDIS_LIB): redis/alloc.o redis/dict.o redis/sds.o
 redis/%.o: redis/%.c 
 	$(CC) -c $(CXXFLAGS) -o $@  $<
 
+REDIS_HAMT_LIB = libredishamt.a
+
+$(REDIS_HAMT_LIB): redis_hamt/alloc.o redis_hamt/dict.o redis_hamt/sds.o
+	ar -r -o $@ $^
+
+redis_hamt/%.o: redis_hamt/%.c
+	$(CC) -c $(CXXFLAGS) -o $@  $<
+
 DASH_LIB = libdash.a
 
 dash/%.o : dash/%.cc
@@ -76,6 +84,7 @@ CXXFLAGS_leveldb                        ?=
 CXXFLAGS_rocksdb                        ?=
 CXXFLAGS_khash                          ?= -Iklibs
 CXXFLAGS_redis_dict                     ?= -I.
+CXXFLAGS_redis_hamt                     ?= -I.
 CXXFLAGS_dash_table                     ?= -I.
 
 ifeq ($(filter bplus_tree,${APPS}), bplus_tree)
@@ -115,6 +124,7 @@ LDFLAGS_leveldb                         ?= -lleveldb
 LDFLAGS_rocksdb                         ?= -lrocksdb
 LDFLAGS_khash                           ?=
 LDFLAGS_redis_dict                      ?= -L. -lredis
+LDFLAGS_redis_hamt                      ?= -L. -lredishamt
 LDFLAGS_dash_table                      ?= -L. -ldash -lredis
 
 ##################################################
@@ -131,5 +141,5 @@ $(OBJ_DIR) $(BUILD_DIR):
 clean:
 	rm -rf $(BUILD_DIR) $(OBJ_DIR)
 
-$(BUILD_DIR)/% : src/%.cc ${OBJS_${notdir $@}} src/template.cc $(REDIS_LIB) $(DASH_LIB)
+$(BUILD_DIR)/% : src/%.cc ${OBJS_${notdir $@}} src/template.cc $(REDIS_LIB) $(REDIS_HAMT_LIB) $(DASH_LIB)
 	$(CXX) $(CXXFLAGS) ${CXXFLAGS_${notdir $@}} -o $@ $< ${OBJS_${notdir $@}} ${LDFLAGS} ${LDFLAGS_${notdir $@}}

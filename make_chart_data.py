@@ -38,6 +38,7 @@ program_slugs = [
     'glib_tree',
     'glib_hash_table',
     'redis_dict',
+    'redis_hamt',
     'dash_table',
     'cuckoohash_map',
 ]

@@ -461,8 +461,8 @@ static bool process_strings()
 			FIND_STR_EXISTING_COUNT(keys[i], nb_found);
 		}
 
-		if(nb_found != num_keys / 2) {
-			std::cerr << "error, duplicates\n";
+		if((nb_found + num_keys / 2) != num_keys) {
+			std::cerr << "error, duplicates " << nb_found << " " << num_keys/2 << "\n";
 			std::exit(6);
 		}
 	}

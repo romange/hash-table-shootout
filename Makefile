@@ -18,7 +18,7 @@ cmd := grep -v \\\# apps.txt
 APPS = ${shell ${cmd}}
 endif # APPS
 
-LDFLAGS ?= -lm -lpython3.8
+LDFLAGS ?= -lm -lpython3.9
 LDFLAGS += ${LDFLAGS_MALLOC}
 
 REDIS_LIB = libredis.a
